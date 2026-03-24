@@ -100,6 +100,6 @@
             SnackBar["SnackBar"]
         end
         MaterialApp --> Janelas
-        Janelas --> Scaffold            
+        Janelas --> Scaffold         
 
     ```
