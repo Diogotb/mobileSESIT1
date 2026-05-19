@@ -20,20 +20,23 @@ class _Exemplo1PageState extends State<Exemplo1Page> {
   //conectar com o SharedPreferences
   SharedPreferences prefs = await SharedPreferences.getInstance();// busca as informaç~eos salvas no shared prefs
   await prefs.setString("nome",_nomeInput.text.trim()); // salvou na chave "nome" => o valor colocado no input
-  _nomeInput.clear();
+  _nomeInput.clear();//limpa o input
   _carregarNomeShared(); // atualiza o nome para a tela
   }
 
   //buscar nome nas preferencias
   _carregarNomeShared() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    // atualiza o estado da página
     setState(() {
+      //atribuindo a variável o valor relacionada a chave buscada no shared
       _nomeSalvo = prefs.getString("nome") ?? "" ; //operador de nulidade
     });
   }
 
   //inicio da página
   @override
+  //método que é iniciado, antes mesmo, do build da tela
   void initState() { // carrega informações do SharedPreferences antes de buildar a tela pela 1º vez
     super.initState();
     _carregarNomeShared();
@@ -46,6 +49,7 @@ class _Exemplo1PageState extends State<Exemplo1Page> {
       body: Padding(
         padding: EdgeInsets.all(8),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: _nomeInput,

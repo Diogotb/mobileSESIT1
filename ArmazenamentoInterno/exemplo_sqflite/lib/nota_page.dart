@@ -1,0 +1,183 @@
+//pagina de exibição das notas
+
+import 'package:exemplo_sqflite/nota_dbhelper.dart';
+import 'package:exemplo_sqflite/nota_model.dart';
+import 'package:flutter/material.dart';
+
+class NotaPage extends StatefulWidget {
+  const NotaPage({super.key});
+
+  @override
+  State<NotaPage> createState() => _NotaPageState();
+}
+
+class _NotaPageState extends State<NotaPage> {
+
+  //instanciar DBHelper
+  final NotaDbhelper _dbhelper = NotaDbhelper(); 
+  // toda vez que precisar de conexão com o banco, usar o dbhelper
+
+  //atributos
+  List<Nota> _notas = [];
+  bool _isLoading = true; // usar como indicador de conexão com o DB
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _carregarNotas();
+  } 
+
+  //carregar as notas para o vetor
+  void _carregarNotas() async{
+    setState(() {
+      _isLoading = true;
+    });
+    //chamar o método read
+    _notas = [];
+    _notas = await _dbhelper.getNotas(); // carregar as notas para a Lista
+    setState(() {
+    _isLoading = false;
+    });
+  }
+
+  //criar nota no DB
+  void _addNota() async{
+    Nota novaNota = Nota(titulo: "Nota ${DateTime.now()}", conteudo: "Conteúdo da Nota");
+    _dbhelper.create(novaNota);
+    _carregarNotas();
+  }
+  //delete Nota
+  void _deleteNota(int id) async{
+    _dbhelper.deleteNota(id);
+    _carregarNotas();
+  }
+
+  //update Nota
+  void _updateNota (Nota nota) async{
+    Nota notaAtualizada = Nota(
+      id: nota.id, 
+      titulo:"${nota.titulo} (editado)" , 
+      conteudo: nota.conteudo);
+    _updateNota(notaAtualizada);
+    // criar um alertDialog para atualizar anota
+    showDialog(
+      context: context, 
+      builder: (context){
+        return AlertDialog(
+          title: Text("Atualizar Nota"),
+          content: TextField(
+            controller: TextEditingController(text:nota.conteudo),
+            onChanged: (value){
+              notaAtualizada = Nota(id: nota.id, titulo: nota.titulo, conteudo: value);
+            },
+          ),
+          actions: [
+            TextButton(onPressed: (){
+              Navigator.of(context).pop();
+              _dbhelper.updateNota(notaAtualizada);
+              _carregarNotas();
+            }, 
+              child: Text("Atualizar"))
+          ],
+        );
+      });
+  }
+
+
+
+  // criar o build da tela
+  //ajustar o build para mostrar as notas como um post-it
+
+  final List<Color> _postItColors = [
+    Colors.yellow[200]!,
+    Colors.pink[200]!,
+    Colors.blue[200]!,
+    Colors.green[200]!,
+    Colors.orange[200]!,
+    Colors.purple[200]!,
+  ];
+
+  Color _getColorForIndex(int index) {
+    return _postItColors[index % _postItColors.length];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Minhas Notas"),),
+      body: _isLoading 
+      ? Center(child: CircularProgressIndicator()) 
+      : GridView.builder(
+        padding: EdgeInsets.all(12),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 1.0,
+        ),
+        itemCount: _notas.length,
+        itemBuilder: (context, index) {
+          final nota = _notas[index];
+          return GestureDetector(
+            onLongPress: () => _updateNota(nota),
+            child: Container(
+              decoration: BoxDecoration(
+                color: _getColorForIndex(index),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(2, 2),
+                  )
+                ],
+              ),
+              padding: EdgeInsets.all(12),
+              child: Stack(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        nota.titulo,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: 8),
+                      Expanded(
+                        child: Text(
+                          nota.conteudo,
+                          style: TextStyle(fontSize: 12),
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: IconButton(
+                      onPressed: () => _deleteNota(nota.id!),
+                      icon: Icon(Icons.close, color: Colors.red, size: 20),
+                      padding: EdgeInsets.zero,
+                      constraints: BoxConstraints(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addNota,
+        tooltip: "Adicionar Nota",
+        child: Icon(Icons.add, color: Colors.green,),),
+    );
+  }
+}
