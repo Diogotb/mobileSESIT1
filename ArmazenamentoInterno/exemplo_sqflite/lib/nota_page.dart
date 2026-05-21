@@ -120,7 +120,7 @@ class _NotaPageState extends State<NotaPage> {
         itemBuilder: (context, index) {
           final nota = _notas[index];
           return GestureDetector(
-            onLongPress: () => _updateNota(nota),
+            onDoubleTap: () => _updateNota(nota),
             child: Container(
               decoration: BoxDecoration(
                 color: _getColorForIndex(index),
