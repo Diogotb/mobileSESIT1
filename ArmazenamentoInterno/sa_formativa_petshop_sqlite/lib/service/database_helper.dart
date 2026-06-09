@@ -4,7 +4,7 @@ import 'package:sa_formativa_petshop_sqlite/model/pet_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  //classe do tipo singleton ( permite o instanciamento de um inico obj por vez)
+  //classe do tipo singleton ( permite o instanciamento de um único obj por vez)
   static final DatabaseHelper _instance = DatabaseHelper._internal();
 
   // essa não possui um construtor normal
@@ -51,22 +51,22 @@ class DatabaseHelper {
       );
   }
 
-  //métodos do CRUD Simplificados
+  //métodos do APIREST Simplificados
 
-  //inserir pet
+  //inserir pet //POST
   Future<int> insertPet(Pet pet) async => (await database).insert("pets", pet.toMap());
 
-  //Listar Pets do DB
+  //Listar Pets do DB //GET
   Future<List<Pet>> getPets() async {
     //busca os pets no banco e retrona uma lista em ordem alfabetica
     final List<Map<String, dynamic>> maps = await (await database).query("pets", orderBy: "nome ASC");
     return List.generate(maps.length, (e) => Pet.fromMap(maps[e]));
   }
 
-  // inserir Consulta
+  // inserir Consulta//POST
   Future<int> insertConsulta(Consulta c) async => (await database).insert("consultas", c.toMap());
 
-  //Get Consulta por Pet
+  //Get Consulta por Pet //GET
   Future<List<Consulta>> getConsultaPorPet(int petId) async{
     final List<Map<String,dynamic>> maps = await (await database).query("consultas", where: "petId = ?", whereArgs: [petId], orderBy: "dataHora DESC" );
     return List.generate(maps.length, (e)=>Consulta.fromMap(maps[e]));
