@@ -3,6 +3,8 @@ import 'package:sa_formativa_petshop_sqlite/model/pet_model.dart';
 import '../controllers/pet_controller.dart';
 
 class AddPetScreen extends StatefulWidget {
+  const AddPetScreen({super.key});
+
   @override
   _AddPetScreenState createState() => _AddPetScreenState();
 }

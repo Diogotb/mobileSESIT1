@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sa_formativa_petshop_sqlite/model/consulta_model.dart';
 import 'package:sa_formativa_petshop_sqlite/model/pet_model.dart';
 import 'package:sa_formativa_petshop_sqlite/service/database_helper.dart';

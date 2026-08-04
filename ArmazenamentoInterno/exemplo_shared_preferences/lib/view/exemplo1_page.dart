@@ -11,12 +11,12 @@ class Exemplo1Page extends StatefulWidget {
 }
 
 class _Exemplo1PageState extends State<Exemplo1Page> {
-  TextEditingController _nomeInput = TextEditingController();
+  final TextEditingController _nomeInput = TextEditingController();
   String _nomeSalvo = "";
 
   //uso shared ´para buscar o nome no inicio do aplicativo 
   //salvar nome nas preferencias
-  _salvarNomeShared() async{ // conexão async => permite continuar rodadno o código enquanto é feito a conexão com a base de dados
+  Future<void> _salvarNomeShared() async{ // conexão async => permite continuar rodadno o código enquanto é feito a conexão com a base de dados
   //conectar com o SharedPreferences
   SharedPreferences prefs = await SharedPreferences.getInstance();// busca as informaç~eos salvas no shared prefs
   await prefs.setString("nome",_nomeInput.text.trim()); // salvou na chave "nome" => o valor colocado no input
@@ -25,7 +25,7 @@ class _Exemplo1PageState extends State<Exemplo1Page> {
   }
 
   //buscar nome nas preferencias
-  _carregarNomeShared() async{
+  Future<void> _carregarNomeShared() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // atualiza o estado da página
     setState(() {
