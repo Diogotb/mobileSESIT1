@@ -15,6 +15,7 @@ class _TarefasPageState extends State<TarefasPage> {
 
   List<Map<String,dynamic>> _tarefas = [];
 
+  @override
   initState() {
     super.initState();
     _carregarTarefasdoUsuario();
@@ -47,11 +48,11 @@ class _TarefasPageState extends State<TarefasPage> {
     showDialog(
       context: context,
       builder: (context) {
-        final TextEditingController _tituloController = TextEditingController();
+        final TextEditingController tituloController = TextEditingController();
         return AlertDialog(
           title: const Text('Adicionar Tarefa'),
           content: TextField(
-            controller: _tituloController,
+            controller: tituloController,
             decoration: const InputDecoration(labelText: 'Título da Tarefa'),
           ),
           actions: [
@@ -63,7 +64,7 @@ class _TarefasPageState extends State<TarefasPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                final titulo = _tituloController.text;
+                final titulo = tituloController.text;
                 if (titulo.isNotEmpty) {
                   setState(() {
                     _tarefas.add({'titulo': titulo, 'concluida': false});

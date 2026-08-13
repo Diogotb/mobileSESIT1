@@ -19,7 +19,7 @@ class _BookListPageState extends State<BookListPage> {
     return Scaffold(
       body: ValueListenableBuilder(
         valueListenable: _notifier,
-        builder: (context, _, __) {
+        builder: (context, _, _) {
           return FutureBuilder(
             future: _bookController.fetchAll(),
             builder: (context, snapshot) {

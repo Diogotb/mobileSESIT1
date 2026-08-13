@@ -13,6 +13,7 @@ class _UsuarioPageState extends State<UsuarioPage> {
   Map<String, dynamic> _baseDados = {};
   final TextEditingController _nomeController = TextEditingController();
 
+  @override
   initState() {
     super.initState();
     _carregarDados();
