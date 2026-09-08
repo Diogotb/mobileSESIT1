@@ -1,4 +1,4 @@
-import 'package:biblioteca_app_json/Model/book_model.dart';
+import 'package:biblioteca_app_json/model/book_model.dart';
 import 'package:biblioteca_app_json/service/api_service.dart';
 
 class BookController {
