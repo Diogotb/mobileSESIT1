@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "697556836081",
+    "project_id": "tarefas-list-dtb2",
+    "storage_bucket": "tarefas-list-dtb2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697556836081:android:e47d91069114ada05f5350",
+        "android_client_info": {
+          "package_name": "com.example.tarefas_list_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697556836081-aumc3iu5bii32lq1h2b5rvl563n8sd5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA576ktMC80qNAGvYwELkKnQU1OXB9R3bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697556836081-aumc3iu5bii32lq1h2b5rvl563n8sd5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
